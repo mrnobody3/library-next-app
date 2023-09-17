@@ -1,3 +1,4 @@
+import Wrapper from "@/pages/layout";
 import "@/styles/globals.css";
 import {CacheProvider, EmotionCache} from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -23,7 +24,9 @@ export default function App({
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <Wrapper>
+          <Component {...pageProps} />
+        </Wrapper>
       </ThemeProvider>
     </CacheProvider>
   );
