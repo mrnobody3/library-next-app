@@ -1,32 +1,46 @@
+import { FormEvent } from 'react';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
-  Box,
-  Button,
-  Checkbox,
   Container,
-  FormControlLabel,
-  Paper,
   TextField,
+  Button,
   Typography,
-} from "@mui/material";
+  Avatar,
+  Box,
+  Grid,
+  Link,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
 
 export default function Login() {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+  };
+
   return (
     <Container component="main" maxWidth="xs">
-      <Paper
-        elevation={3}
-        style={{
-          padding: 20,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
         <Typography component="h1" variant="h5">
-          Login
+          Sign in
         </Typography>
-        <Box component="form" style={{ width: "100%", marginTop: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
-            variant="outlined"
             margin="normal"
             required
             fullWidth
@@ -37,7 +51,6 @@ export default function Login() {
             autoFocus
           />
           <TextField
-            variant="outlined"
             margin="normal"
             required
             fullWidth
@@ -59,8 +72,20 @@ export default function Login() {
           >
             Sign In
           </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
-      </Paper>
+      </Box>
     </Container>
   );
 }
