@@ -15,6 +15,7 @@ import {
 import { useState } from 'react';
 const AuthBar = () => {
   const [value, setValue] = useState(0);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <BottomNavigation
