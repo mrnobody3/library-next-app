@@ -1,63 +1,50 @@
-import {
-  BottomNavigation,
-  BottomNavigationAction,
-  Box,
-  Button,
-  Link,
-  List,
-  ListItem,
-} from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import {
   DirectionsRun as DirectionsRunIcon,
   MeetingRoom as MeetingRoomIcon,
 } from '@mui/icons-material';
-import { useState } from 'react';
+
+import { ref } from '@/constants/href';
 const AuthBar = () => {
-  const [value, setValue] = useState(0);
+  const router = useRouter();
+  console.log(router.pathname);
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <BottomNavigation
-        showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        sx={{ bgcolor: 'primaryLight.main' }}
-      >
+      <BottomNavigation showLabels sx={{ bgcolor: 'inherit' }}>
         <BottomNavigationAction
           component={NextLink}
-          href="/auth/login"
+          href={ref.login}
           label="Sign In"
-          icon={<DirectionsRunIcon />}
-          sx={{}}
+          icon={
+            <DirectionsRunIcon
+              sx={(theme) => ({
+                color:
+                  router.pathname === ref.login
+                    ? theme.palette.primary.main
+                    : '',
+              })}
+            />
+          }
         />
         <BottomNavigationAction
           component={NextLink}
-          href="/auth/register"
+          href={ref.register}
           label="Sign Up"
-          icon={<MeetingRoomIcon />}
+          icon={
+            <MeetingRoomIcon
+              sx={(theme) => ({
+                color:
+                  router.pathname === ref.register
+                    ? theme.palette.primary.main
+                    : '',
+              })}
+            />
+          }
         />
       </BottomNavigation>
-      {/*<Button*/}
-      {/*  component={NextLink}*/}
-      {/*  variant="outlined"*/}
-      {/*  href="/auth/login"*/}
-      {/*  sx={{ color: 'inherit', display: 'flex', alignItems: 'center', gap: 1 }}*/}
-      {/*>*/}
-      {/*  <DirectionsRunIcon sx={{ display: { sx: 'none', md: 'block' } }} />*/}
-      {/*  Sign In*/}
-      {/*</Button>*/}
-      {/*<Button*/}
-      {/*  component={NextLink}*/}
-      {/*  variant="contained"*/}
-      {/*  href="/auth/register"*/}
-      {/*  sx={{ color: 'inherit', display: 'flex', alignItems: 'center', gap: 1 }}*/}
-      {/*>*/}
-      {/*  <MeetingRoomIcon sx={{ display: { sx: 'none', md: 'block' } }} />*/}
-      {/*  Sign Up*/}
-      {/*</Button>*/}
     </Box>
   );
 };
