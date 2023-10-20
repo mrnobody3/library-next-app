@@ -9,7 +9,6 @@ import {
 import { ref } from '@/constants/href';
 const AuthBar = () => {
   const router = useRouter();
-  console.log(router.pathname);
 
   return (
     <Box sx={{ display: 'flex' }}>
