@@ -1,6 +1,6 @@
-import { Theme, ThemeOptions } from "@mui/material/styles";
+import { Theme, ThemeOptions } from '@mui/material/styles';
 
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
   interface CustomTheme extends Theme {
     status?: {
       danger?: string;
@@ -17,6 +17,12 @@ declare module "@mui/material/styles" {
     text?: {
       fontSize?: string;
     };
+  }
+  interface Palette {
+    primaryLight: Palette['primary'];
+  }
+  interface PaletteOptions {
+    primaryLight: PaletteOptions['primary'];
   }
 
   export function createTheme(options?: CustomThemeOptions): CustomTheme;
