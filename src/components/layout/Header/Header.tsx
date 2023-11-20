@@ -1,6 +1,6 @@
-import AuthBar from '@/components/layout/Header/AuthBar';
-import HeaderLogo from '@/components/layout/Header/HeaderLogo';
-import UserBar from '@/components/layout/Header/UserBar';
+import { useSession } from 'next-auth/react';
+import { MouseEvent, useState } from 'react';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
@@ -14,13 +14,16 @@ import {
   Typography,
 } from '@mui/material';
 
-import { MouseEvent, useState } from 'react';
+import AuthBar from '@/components/layout/Header/AuthBar';
+import HeaderLogo from '@/components/layout/Header/HeaderLogo';
+import UserBar from '@/components/layout/Header/UserBar';
 
 const pages = ['About', 'Contacts'];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const isLoggIn = false;
+  const { data: session } = useSession();
+
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -97,7 +100,7 @@ const Header = () => {
               </Button>
             ))}
           </Box>
-          {isLoggIn ? <UserBar /> : <AuthBar />}
+          {session ? <UserBar /> : <AuthBar />}
         </Toolbar>
       </Container>
     </AppBar>

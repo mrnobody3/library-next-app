@@ -1,26 +1,41 @@
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
+
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
-  Container,
-  TextField,
-  Button,
-  Typography,
   Avatar,
   Box,
+  Button,
+  Checkbox,
+  Container,
+  FormControlLabel,
   Grid,
   Link,
-  Checkbox,
-  FormControlLabel,
+  TextField,
+  Typography,
 } from '@mui/material';
 
 export default function Login() {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    try {
+      const res = await signIn('credentials', {
+        email: data.get('email'),
+        password: data.get('password'),
+        redirect: false,
+      });
+
+      if (res?.ok) {
+        router.push('/');
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

@@ -2,7 +2,9 @@ import NextAuth from 'next-auth';
 import type { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-import axios from '@/lib/axios';
+// import useAxiosAuth from '@/hooks/useAxiosAuth';
+import instance from '@/lib/axios';
+import { signOutUser } from '@/services/api/signOutUser';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -16,14 +18,16 @@ export const authOptions: AuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const res = await axios.post('/api/auth/login', {
+        const res = await instance.post('/auth/login', {
           email: credentials?.email,
           password: credentials?.password,
         });
-        const user = res.data;
-        console.log(user);
 
-        if (!user) return null;
+        const user = res.data;
+
+        if (!user) {
+          return null;
+        }
 
         return user;
       },
@@ -31,8 +35,6 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log({ account });
-
       return { ...token, ...user };
     },
     async session({ session, token, user }) {
@@ -40,6 +42,16 @@ export const authOptions: AuthOptions = {
 
       return session;
     },
+  },
+  // events: {
+  //   async signOut({ token, session }) {
+  //     // const res = await signOutUser();
+  //     // console.log('res-->', res);
+  //     // console.log('session-->', session);
+  //   },
+  // },
+  pages: {
+    signIn: '/auth/login',
   },
 };
 export default NextAuth(authOptions);

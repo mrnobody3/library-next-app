@@ -1,3 +1,8 @@
+'use client';
+
+import { signOut, useSession } from 'next-auth/react';
+import { MouseEvent, useState } from 'react';
+
 import {
   Avatar,
   Box,
@@ -9,24 +14,44 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { MouseEvent, useState } from 'react';
+
+// import useAxiosAuth from '@/hooks/useAxiosAuth';
+import { signOutUser } from '@/services/api/signOutUser';
+
 const settings = ['Profile', 'Account', 'Dashboard'];
 
 const UserBar = () => {
+  const { data: session } = useSession();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const onSignOut = async () => {
+    // signOut();
+
+    const res = await signOutUser();
+    console.log(res);
+  };
   return (
     <>
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <IconButton
+            onClick={handleOpenUserMenu}
+            sx={{
+              p: 0,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 2,
+            }}
+          >
+            <Avatar alt={session?.user.name} src={session?.user.avatarUrl} />
+            <Typography variant={'body2'}>{session?.user.name}</Typography>
           </IconButton>
         </Tooltip>
         <Menu
@@ -55,6 +80,7 @@ const UserBar = () => {
             type="button"
             variant="contained"
             sx={{ display: 'block', mx: 'auto' }}
+            onClick={onSignOut}
           >
             Logout
           </Button>
